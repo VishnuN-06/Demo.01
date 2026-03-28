@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxe Jewelry Boutique | Elegant Fine Jewelry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-sans antialiased bg-stone-50">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/95 backdrop-blur-md shadow-sm z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <i data-lucide="gem" class="h-8 w-8 text-amber-600 mr-2"></i>
+                    <span class="font-serif text-2xl font-bold text-gray-900 tracking-wide">LUXE</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="text-gray-700 hover:text-amber-600 transition-colors font-medium">Home</a>
+                    <a href="#collections" class="text-gray-700 hover:text-amber-600 transition-colors font-medium">Collections</a>
+                    <a href="#products" class="text-gray-700 hover:text-amber-600 transition-colors font-medium">Shop</a>
+                    <a href="#about" class="text-gray-700 hover:text-amber-600 transition-colors font-medium">Our Story</a>
+                    <a href="#contact" class="text-gray-700 hover:text-amber-600 transition-colors font-medium">Contact</a>
+                </div>
+
+                <!-- Icons -->
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 hover:bg-gray-100 rounded-full transition-colors" onclick="toggleSearch()">
+                        <i data-lucide="search" class="h-5 w-5 text-gray-700"></i>
+                    </button>
+                    <button class="p-2 hover:bg-gray-100 rounded-full transition-colors relative" onclick="toggleCart()">
+                        <i data-lucide="shopping-bag" class="h-5 w-5 text-gray-700"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-amber-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center opacity-0 transition-opacity">0</span>
+                    </button>
+                    <button class="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors" onclick="toggleMobileMenu()">
+                        <i data-lucide="menu" class="h-6 w-6 text-gray-700"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#home" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md">Home</a>
+                <a href="#collections" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md">Collections</a>
+                <a href="#products" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md">Shop</a>
+                <a href="#about" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md">Our Story</a>
+                <a href="#contact" class="block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-md">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Overlay -->
+    <div id="search-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute top-24 left-1/2 transform -translate-x-1/2 w-full max-w-2xl px-4">
+            <div class="bg-white rounded-lg shadow-2xl p-4">
+                <div class="relative">
+                    <input type="text" placeholder="Search for jewelry..." class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600">
+                    <i data-lucide="search" class="absolute left-4 top-3.5 h-5 w-5 text-gray-400"></i>
+                    <button onclick="toggleSearch()" class="absolute right-4 top-3.5">
+                        <i data-lucide="x" class="h-5 w-5 text-gray-400 hover:text-gray-600"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 transition-opacity" onclick="toggleCart()"></div>
+        <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col" id="cart-panel">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h2 class="text-xl font-serif font-bold text-gray-900">Shopping Cart</h2>
+                <button onclick="toggleCart()" class="p-2 hover:bg-gray-100 rounded-full">
+                    <i data-lucide="x" class="h-6 w-6 text-gray-600"></i>
+                </button>
+            </div>
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6">
+                <div class="text-center text-gray-500 mt-12">
+                    <i data-lucide="shopping-bag" class="h-16 w-16 mx-auto mb-4 opacity-30"></i>
+                    <p>Your cart is empty</p>
+                    <button onclick="toggleCart(); window.location.href='#products'" class="mt-4 text-amber-600 hover:text-amber-700 font-medium">Start Shopping</button>
+                </div>
+            </div>
+            <div class="border-t p-6 bg-gray-50">
+                <div class="flex justify-between mb-4 text-lg font-semibold">
+                    <span>Total</span>
+                    <span id="cart-total">$0.00</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 transition-colors font-medium">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative pt-20 min-h-screen flex items-center">
+        <div class="absolute inset-0 z-0">
+            <img src="http://static.photos/luxury/1200x630/42" alt="Luxury Jewelry" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div class="max-w-2xl text-white">
+                <p class="text-amber-400 font-medium mb-4 tracking-widest uppercase text-sm">Timeless Elegance</p>
+                <h1 class="font-serif text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    Crafted with <span class="text-amber-400">Precision</span> & Love
+                </h1>
+                <p class="text-lg md:text-xl mb-8 text-gray-200 leading-relaxed">
+                    Discover our exquisite collection of handcrafted jewelry, where every piece tells a unique story of elegance and sophistication.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#products" class="inline-flex items-center justify-center px-8 py-4 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition-all transform hover:scale-105 font-medium">
+                        Shop Now
+                        <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
+                    </a>
+                    <a href="#collections" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white rounded-full hover:bg-white hover:text-gray-900 transition-all font-medium">
+                        View Collections
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-12 bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="flex items-center justify-center space-x-3">
+                    <i data-lucide="truck" class="h-8 w-8 text-amber-600"></i>
+                    <div>
+                        <p class="font-semibold text-gray-900">Free Shipping</p>
+                        <p class="text-sm text-gray-500">On orders over $200</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center space-x-3">
+                    <i data-lucide="shield-check" class="h-8 w-8 text-amber-600"></i>
+                    <div>
+                        <p class="font-semibold text-gray-900">Secure Payment</p>
+                        <p class="text-sm text-gray-500">100% secure checkout</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center space-x-3">
+                    <i data-lucide="refresh-cw" class="h-8 w-8 text-amber-600"></i>
+                    <div>
+                        <p class="font-semibold text-gray-900">Easy Returns</p>
+                        <p class="text-sm text-gray-500">30-day return policy</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center space-x-3">
+                    <i data-lucide="headphones" class="h-8 w-8 text-amber-600"></i>
+                    <div>
+                        <p class="font-semibold text-gray-900">24/7 Support</p>
+                        <p class="text-sm text-gray-500">Dedicated support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section id="collections" class="py-20 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl font-bold text-gray-900 mb-4">Shop by Category</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Explore our curated collections of fine jewelry, each piece crafted to perfection</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Category 1 -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer" onclick="filterProducts('rings')">
+                    <div class="aspect-w-3 aspect-h-4 h-96">
+                        <img src="http://static.photos/luxury/640x360/1" alt="Rings" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 class="text-2xl font-serif font-bold text-white mb-1">Rings</h3>
+                        <p class="text-gray-200 text-sm">24 Pieces</p>
+                    </div>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer" onclick="filterProducts('necklaces')">
+                    <div class="aspect-w-3 aspect-h-4 h-96">
+                        <img src="http://static.photos/fashion/640x360/2" alt="Necklaces" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 class="text-2xl font-serif font-bold text-white mb-1">Necklaces</h3>
+                        <p class="text-gray-200 text-sm">18 Pieces</p>
+                    </div>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer" onclick="filterProducts('earrings')">
+                    <div class="aspect-w-3 aspect-h-4 h-96">
+                        <img src="http://static.photos/luxury/640x360/3" alt="Earrings" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 class="text-2xl font-serif font-bold text-white mb-1">Earrings</h3>
+                        <p class="text-gray-200 text-sm">32 Pieces</p>
+                    </div>
+                </div>
+
+                <!-- Category 4 -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer" onclick="filterProducts('bracelets')">
+                    <div class="aspect-w-3 aspect-h-4 h-96">
+                        <img src="http://static.photos/fashion/640x360/4" alt="Bracelets" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 class="text-2xl font-serif font-bold text-white mb-1">Bracelets</h3>
+                        <p class="text-gray-200 text-sm">16 Pieces</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div>
+                    <h2 class="font-serif text-4xl font-bold text-gray-900 mb-2">Featured Collection</h2>
+                    <p class="text-gray-600">Handpicked pieces for every occasion</p>
+                </div>
+                <div class="flex space-x-2 mt-6 md:mt-0 overflow-x-auto pb-2 md:pb-0">
+                    <button onclick="filterProducts('all')" class="filter-btn active px-6 py-2 rounded-full border border-gray-300 hover:border-amber-600 hover:text-amber-600 transition-colors text-sm font-medium bg-amber-600 text-white border-amber-600" data-filter="all">All</button>
+                    <button onclick="filterProducts('rings')" class="filter-btn px-6 py-2 rounded-full border border-gray-300 hover:border-amber-600 hover:text-amber-600 transition-colors text-sm font-medium text-gray-700" data-filter="rings">Rings</button>
+                    <button onclick="filterProducts('necklaces')" class="filter-btn px-6 py-2 rounded-full border border-gray-300 hover:border-amber-600 hover:text-amber-600 transition-colors text-sm font-medium text-gray-700" data-filter="necklaces">Necklaces</button>
+                    <button onclick="filterProducts('earrings')" class="filter-btn px-6 py-2 rounded-full border border-gray-300 hover:border-amber-600 hover:text-amber-600 transition-colors text-sm font-medium text-gray-700" data-filter="earrings">Earrings</button>
+                    <button onclick="filterProducts('bracelets')" class="filter-btn px-6 py-2 rounded-full border border-gray-300 hover:border-amber-600 hover:text-amber-600 transition-colors text-sm font-medium text-gray-700" data-filter="bracelets">Bracelets</button>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Products will be injected here by JavaScript -->
+            </div>
+
+            <div class="text-center mt-16">
+                <button class="inline-flex items-center px-8 py-3 border-2 border-gray-900 text-gray-900 rounded-full hover:bg-gray-900 hover:text-white transition-all font-medium">
+                    View All Products
+                    <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offer -->
+    <section class="py-20 bg-gray-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <img src="http://static.photos/abstract/1200x630/99" alt="Background" class="w-full h-full object-cover">
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-amber-400 font-medium tracking-widest uppercase text-sm">Limited Time Offer</span>
+                    <h2 class="font-serif text-4xl md:text-5xl font-bold mt-4 mb-6">Summer Collection Sale</h2>
+                    <p class="text-gray-300 text-lg mb-8">Get up to 40% off on selected items from our new summer collection. Offer valid until the end of the month.</p>
+                    <div class="flex gap-4 text-center mb-8">
+                        <div class="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+                            <div class="text-3xl font-bold" id="days">02</div>
+                            <div class="text-sm text-gray-400">Days</div>
+                        </div>
+                        <div class="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+                            <div class="text-3xl font-bold" id="hours">18</div>
+                            <div class="text-sm text-gray-400">Hours</div>
+                        </div>
+                        <div class="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+                            <div class="text-3xl font-bold" id="minutes">45</div>
+                            <div class="text-sm text-gray-400">Minutes</div>
+                        </div>
+                        <div class="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+                            <div class="text-3xl font-bold" id="seconds">30</div>
+                            <div class="text-sm text-gray-400">Seconds</div>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='#products'" class="px-8 py-4 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition-all font-medium">
+                        Shop the Sale
+                    </button>
+                </div>
+                <div class="hidden md:block">
+                    <img src="http://static.photos/luxury/640x360/88" alt="Special Offer" class="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="relative">
+                    <img src="http://static.photos/workplace/640x360/77" alt="Craftsman at work" class="rounded-2xl shadow-xl w-full">
+                    <div class="absolute -bottom-8 -right-8 bg-white p-6 rounded-xl shadow-xl hidden md:block">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-amber-100 p-3 rounded-full">
+                                <i data-lucide="award" class="h-8 w-8 text-amber-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-2xl text-gray-900">15+</p>
+                                <p class="text-gray-600 text-sm">Years of Excellence</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-amber-600 font-medium tracking-widest uppercase text-sm">Our Story</span>
+                    <h2 class="font-serif text-4xl font-bold text-gray-900 mt-4 mb-6">Crafting Memories Since 2008</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        At Luxe Jewelry, we believe that every piece of jewelry tells a story. Our master craftsmen bring decades of experience to every creation, combining traditional techniques with modern design.
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        We source only the finest materials - from ethically mined diamonds to conflict-free gemstones - ensuring that your jewelry is as meaningful as the moments it celebrates.
+                    </p>
+                    <div class="grid grid-cols-3 gap-8 border-t pt-8">
+                        <div>
+                            <p class="font-bold text-3xl text-gray-900">5000+</p>
+                            <p class="text-gray-600 text-sm mt-1">Happy Customers</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-3xl text-gray-900">100%</p>
+                            <p class="text-gray-600 text-sm mt-1">Authentic</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-3xl text-gray-900">50+</p>
+                            <p class="text-gray-600 text-sm mt-1">Unique Designs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl font-bold text-gray-900 mb-4">What Our Clients Say</h2>
+                <p class="text-gray-600">Real stories from real customers</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-stone-50 p-8 rounded-2xl">
+                    <div class="flex text-amber-400 mb-4">
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">"The engagement ring I purchased exceeded all expectations. The craftsmanship is impeccable and my fiancée couldn't be happier!"</p>
+                    <div class="flex items-center">
+                        <img src="http://static.photos/people/200x200/11" alt="Customer" class="h-12 w-12 rounded-full object-cover mr-4">
+                        <div>
+                            <p class="font-semibold text-gray-900">Michael Roberts</p>
+                            <p class="text-sm text-gray-500">Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-stone-50 p-8 rounded-2xl">
+                    <div class="flex text-amber-400 mb-4">
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">"Beautiful packaging and even more beautiful jewelry. The necklace I bought gets compliments every time I wear it. Highly recommend!"</p>
+                    <div class="flex items-center">
+                        <img src="http://static.photos/people/200x200/22" alt="Customer" class="h-12 w-12 rounded-full object-cover mr-4">
+                        <div>
+                            <p class="font-semibold text-gray-900">Sarah Chen</p>
+                            <p class="text-sm text-500">Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-stone-50 p-8 rounded-2xl">
+                    <div class="flex text-amber-400 mb-4">
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                        <i data-lucide="star" class="h-5 w-5 fill-current"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">"Exceptional customer service and stunning quality. The custom bracelet they made for my anniversary was perfect in every way."</p>
+                    <div class="flex items-center">
+                        <img src="http://static.photos/people/200x200/33" alt="Customer" class="h-12 w-12 rounded-full object-cover mr-4">
+                        <div>
+                            <p class="font-semibold text-gray-900">Emma Williams</p>
+                            <p class="text-sm text-gray-500">Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-20 bg-amber-600">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-white mb-4">Join the Luxe Family</h2>
+            <p class="text-amber-100 mb-8 text-lg">Subscribe to receive exclusive offers, early access to new collections, and jewelry care tips.</p>
+            <form onsubmit="event.preventDefault(); subscribeNewsletter();" class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                <input type="email" placeholder="Enter your email" required class="flex-1 px-6 py-4 rounded-full focus:outline-none focus:ring-2 focus:ring-white text-gray-900">
+                <button type="submit" class="px-8 py-4 bg-gray-900 text-white rounded-full hover:bg-gray-800 transition-colors font-medium whitespace-nowrap">
+                    Subscribe Now
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <i data-lucide="gem" class="h-8 w-8 text-amber-600 mr-2"></i>
+                        <span class="font-serif text-2xl font-bold">LUXE</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Crafting timeless elegance since 2008. Every piece tells a story of luxury and sophistication.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="p-2 bg-gray-800 rounded-full hover:bg-amber-600 transition-colors">
+                            <i data-lucide="instagram" class="h-5 w-5"></i>
+                        </a>
+                        <a href="#" class="p-2 bg-gray-800 rounded-full hover:bg-amber-600 transition-colors">
+                            <i data-lucide="facebook" class="h-5 w-5"></i>
+                        </a>
+                        <a href="#" class="p-2 bg-gray-800 rounded-full hover:bg-amber-600 transition-colors">
+                            <i data-lucide="twitter" class="h-5 w-5"></i>
+                        </a>
+                        <a href="#" class="p-2 bg-gray-800 rounded-full hover:bg-amber-600 transition-colors">
+                            <i data-lucide="linkedin" class="h-5 w-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-serif text-lg font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#home" class="hover:text-amber-600 transition-colors">Home</a></li>
+                        <li><a href="#collections" class="hover:text-amber-600 transition-colors">Collections</a></li>
+                        <li><a href="#products" class="hover:text-amber-600 transition-colors">Shop</a></li>
+                        <li><a href="#about" class="hover:text-amber-600 transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-amber-600 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-serif text-lg font-bold mb-6">Customer Care</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-amber-600 transition-colors">Shipping Policy</a></li>
+                        <li><a href="#" class="hover:text-amber-600 transition-colors">Returns & Exchanges</a></li>
+                        <li><a href="#" class="hover:text-amber-600 transition-colors">Size Guide</a></li>
+                        <li><a href="#" class="hover:text-amber-600 transition-colors">Jewelry Care</a></li>
+                        <li><a href="#" class="hover:text-amber-600 transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-serif text-lg font-bold mb-6">Contact Us</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start">
+                            <i data-lucide="map-pin" class="h-5 w-5 mr-3 text-amber-600 mt-0.5"></i>
+                            <span>123 Luxury Lane, Beverly Hills<br>CA 90210, USA</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="phone" class="h-5 w-5 mr-3 text-amber-600"></i>
+                            <span>+1 (800) 123-4567</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="mail" class="h-5 w-5 mr-3 text-amber-600"></i>
+                            <span>hello@luxejewelry.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm mb-4 md:mb-0">&copy; 2024 Luxe Jewelry Boutique. All rights reserved.</p>
+                <div class="flex items-center space-x-6">
+                    <i data-lucide="credit-card" class="h-6 w-6 text-gray-600"></i>
+                    <i data-lucide="credit-card" class="h-6 w-6 text-gray-600"></i>
+                    <i data-lucide="credit-card" class="h-6 w-6 text-gray-600"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-gray-900 text-white px-6 py-4 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center">
+        <i data-lucide="check-circle" class="h-5 w-5 text-green-400 mr-3"></i>
+        <span id="toast-message">Item added to cart!</span>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+<script src="https://deepsite.hf.co/deepsite-badge.js"></script>
+</body>
+</html>
